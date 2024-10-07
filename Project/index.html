@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planify - FullCalendar ICS Upload</title>
-    
+
     <!-- FullCalendar CSS -->
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
-    
+
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -50,7 +50,8 @@
             margin-bottom: 30px;
         }
 
-        .upload-btn input[type="file"] {
+        .upload-btn input[type="file"],
+        .download-btn {
             padding: 10px 25px;
             border-radius: 25px;
             background-color: #f5b7b1;
@@ -61,15 +62,25 @@
             transition: background-color 0.3s ease;
         }
 
-        .upload-btn input[type="file"]:hover {
+        .upload-btn input[type="file"]:hover,
+        .download-btn:hover {
             background-color: #d16e68;
         }
 
-        /* Styling the calendar */
         .calendar-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        #calendar {
+            width: 50%;
+            margin-left: auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border: 1px solid #ddd;
         }
 
         .calendar-img {
@@ -81,14 +92,9 @@
             border-radius: 15px;
         }
 
-        #calendar {
-            width: 50%;
-            margin-left: auto;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            border: 1px solid #ddd;
+        .download-btn-container {
+            text-align: center;
+            margin-top: 30px;
         }
     </style>
 </head>
@@ -110,27 +116,39 @@
             </div>
             <div id="calendar"></div>
         </div>
+
+        <div class="download-btn-container">
+            <button id="download-btn" class="download-btn">Download Updated ICS</button>
+        </div>
     </div>
 
     <!-- FullCalendar JS -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
     <!-- iCal Parser Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.4.0/ical.js"></script>
-    
+
     <script>
+        let calendar;
+        let events = [];
+
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
 
-            // Initialize FullCalendar
-            var calendar = new FullCalendar.Calendar(calendarEl, {
+            // Initialize FullCalendar with editable events
+            calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-                editable: true,
-                events: []
+                editable: true, // Allow events to be edited
+                events: [],
+
+                // Event change detection (fires when events are modified)
+                eventChange: function (info) {
+                    updateICS();
+                }
             });
 
             calendar.render();
@@ -141,7 +159,7 @@
                 if (file && file.name.endsWith('.ics')) {
                     const reader = new FileReader();
                     reader.onload = function (e) {
-                        const events = parseICS(e.target.result);
+                        events = parseICS(e.target.result);
                         calendar.removeAllEvents();  // Clear previous events
                         calendar.addEventSource(events);  // Add parsed events to the calendar
                     };
@@ -151,29 +169,81 @@
                 }
             });
 
-            // Parse the uploaded ICS file using ical.js
-            function parseICS(icsData) {
-                const jcalData = ICAL.parse(icsData);
-                const comp = new ICAL.Component(jcalData);
-                const vevents = comp.getAllSubcomponents('vevent');
-                const events = [];
+            // Handle ICS file download
+            document.getElementById('download-btn').addEventListener('click', function () {
+                const icsData = generateICS(events);
+                downloadICSFile(icsData, 'updated_calendar.ics');
+            });
 
-                vevents.forEach(vevent => {
-                    const start = vevent.getFirstPropertyValue('dtstart');
-                    const end = vevent.getFirstPropertyValue('dtend');
-                    const summary = vevent.getFirstPropertyValue('summary');
-
-                    events.push({
-                        title: summary || 'No Title',
-                        start: start.toJSDate(),
-                        end: end ? end.toJSDate() : start.toJSDate(),
-                        allDay: !start.isDate && !end.isDate
-                    });
-                });
-
-                return events;
-            }
         });
+
+        // Parse the uploaded ICS file using ical.js
+        function parseICS(icsData) {
+            const jcalData = ICAL.parse(icsData);
+            const comp = new ICAL.Component(jcalData);
+            const vevents = comp.getAllSubcomponents('vevent');
+            const events = [];
+
+            vevents.forEach(vevent => {
+                const start = vevent.getFirstPropertyValue('dtstart');
+                const end = vevent.getFirstPropertyValue('dtend');
+                const summary = vevent.getFirstPropertyValue('summary');
+
+                events.push({
+                    id: vevent.getFirstPropertyValue('uid'), // Unique event ID for tracking
+                    title: summary || 'No Title',
+                    start: start.toJSDate(),
+                    end: end ? end.toJSDate() : start.toJSDate(),
+                    allDay: !start.isDate && !end.isDate
+                });
+            });
+
+            return events;
+        }
+
+        // Update the ICS data when events are changed
+        function updateICS() {
+            events = calendar.getEvents().map(event => ({
+                id: event.id,
+                title: event.title,
+                start: event.start,
+                end: event.end,
+                allDay: event.allDay
+            }));
+        }
+
+        // Generate an ICS file from the event data
+        function generateICS(events) {
+            const comp = new ICAL.Component(['vcalendar', [], []]);
+
+            // Add calendar properties
+            comp.addPropertyWithValue('version', '2.0');
+            comp.addPropertyWithValue('prodid', '-//FullCalendar ICS Export//EN');
+
+            // Add events to the calendar
+            events.forEach(event => {
+                const vevent = new ICAL.Component('vevent');
+                vevent.addPropertyWithValue('uid', event.id);
+                vevent.addPropertyWithValue('summary', event.title);
+                vevent.addPropertyWithValue('dtstart', ICAL.Time.fromJSDate(event.start));
+                vevent.addPropertyWithValue('dtend', ICAL.Time.fromJSDate(event.end || event.start));
+
+                comp.addSubcomponent(vevent);
+            });
+
+            return comp.toString();
+        }
+
+        // Download the ICS file
+        function downloadICSFile(icsData, fileName) {
+            const blob = new Blob([icsData], { type: 'text/calendar' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
     </script>
 </body>
 
