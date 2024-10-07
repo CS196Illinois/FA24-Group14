@@ -3,98 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planify Calendar</title>
+    <title>FullCalendar ICS Upload</title>
+    <!-- Bootstrap CSS for layout styling -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <!-- FullCalendar Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css"/>
+    <!-- FullCalendar and Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+    <!-- iCal Parser Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.4.0/ical.js"></script>
     <style>
         body {
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #f3dfd9;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 20px;
         }
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-        header h1 {
-            font-size: 2.5rem;
-            color: #874d4d;
-            margin-bottom: 2rem;
-            text-transform: uppercase;
-        }
-        .content {
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            width: 60%;
-            background-color: #f3dfd9;
-        }
-        .text h2 {
-            font-size: 2.5rem;
-            color: #59302b;
-            margin-bottom: 0.5rem;
-        }
-        .text p {
-            font-size: 1.2rem;
-            color: #7e615c;
+        .calendar-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         .upload-btn {
-            padding: 0.7rem 1.5rem;
-            font-size: 1rem;
-            color: #fff;
-            background-color: #59302b;
-            border: none;
-            cursor: pointer;
-            margin-top: 1rem;
-            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
         }
-        .upload-btn:hover {
-            background-color: #7e615c;
-        }
-        .file-input {
-            display: none;
-        }
-        .image img {
-            width: 300px;
-            height: auto;
-            border: 2px solid #59302b;
-            border-radius: 20px;
+        #calendar {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>PLANIFY</h1>
-        </header>
-        <div class="content">
-            <div class="text">
-                <h2>Organize your calendar</h2>
-                <p>with the simple click of a button</p>
-                <input type="file" id="fileInput" class="file-input" accept=".ics">
-                <button class="upload-btn" onclick="document.getElementById('fileInput').click()">UPLOAD</button>
-                <p id="message"></p>
-            </div>
-            <div class="image">
-                <img src="calendar.png" alt="Calendar Image">
-            </div>
+    <h2 class="text-center">FullCalendar ICS Upload Integration</h2>
+    <div class="container calendar-container">
+        <div class="upload-btn">
+            <input type="file" id="upload" accept=".ics" class="btn btn-primary" />
         </div>
+        <div id="calendar"></div>
     </div>
+    <br>
 
     <script>
-        const fileInput = document.getElementById('fileInput');
-        const message = document.getElementById('message');
+        $(document).ready(function () {
+            // Initialize FullCalendar
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                editable: true,
+                events: []
+            });
 
-        fileInput.addEventListener('change', function() {
-            const file = fileInput.files[0];
-            if (file && file.name.endsWith('.ics')) {
-                message.textContent = `File "${file.name}" uploaded successfully.`;
-                message.style.color = 'green';
-            } else {
-                message.textContent = 'Please upload a valid .ics file.';
-                message.style.color = 'red';
-                fileInput.value = ''; // Reset the input
+            // Handle file upload and parse ICS file
+            $('#upload').on('change', function (event) {
+                const file = event.target.files[0];
+                if (file && file.name.endsWith('.ics')) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const events = parseICS(e.target.result);
+                        $('#calendar').fullCalendar('removeEvents');  // Clear previous events
+                        $('#calendar').fullCalendar('addEventSource', events);
+                    };
+                    reader.readAsText(file);
+                } else {
+                    alert('Please upload a valid .ics file');
+                }
+            })
+
+            // Parse the uploaded ICS file using ical.js
+            function parseICS(icsData) {
+                const jcalData = ICAL.parse(icsData);
+                const comp = new ICAL.Component(jcalData);
+                const vevents = comp.getAllSubcomponents('vevent');
+                const events = [];
+
+                vevents.forEach(vevent => {
+                    const start = vevent.getFirstPropertyValue('dtstart');
+                    const end = vevent.getFirstPropertyValue('dtend');
+                    const summary = vevent.getFirstPropertyValue('summary');
+
+                    events.push({
+                        title: summary || 'No Title',
+                        start: start.toJSDate(),
+                        end: end ? end.toJSDate() : start.toJSDate(),
+                        allDay: !start.isDate && !end.isDate
+                    });
+                });
+
+                return events;
             }
         });
     </script>
