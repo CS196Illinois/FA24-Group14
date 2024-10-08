@@ -100,6 +100,23 @@
         .submitTask {
             text-align: left
         }
+        .submitTask {
+            display: flex;
+            flex-direction: column;   /* Ensures the elements inside the form are stacked vertically */
+            text-align: left;         /* Aligns the text and input fields to the left */
+}
+
+        form {
+            width: 300px;  /* Adjusts the width of the form */
+        }
+
+        input[type="text"] {
+            width: 100%;   /* Ensures the text input field takes up the full width of the form */
+        }
+
+        input[type="submit"] {
+            margin-top: 10px;  /* Adds some space between the text field and the submit button */
+        }
     </style>
 </head>
 
@@ -128,6 +145,7 @@
         <div class="submitTask"> 
             <form>
                 <label for=“Assignments”>Assignments</label>
+                <br>
                 <input type=“text” name=“task” id=“task”>
                 <br>
                 <input type="submit" value="Submit">
