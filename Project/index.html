@@ -97,14 +97,20 @@
             margin-top: 30px;
         }
 
-        .submitTask {
-            text-align: left
+        .submissionContainer {
+            position: relative;
+            display: flex;
+            justify-content: flex-start;   /* Aligns the form to the left side */
+            align-items: center;           /* Centers the form vertically */
+            height: 100vh;                 /* Full height of the viewport */
+            padding-left: 10%;             /* Adjusts padding from the left side (use 10% for some spacing) */
+            box-sizing: border-box;
         }
         .submitTask {
-            display: flex;
-            flex-direction: column;   /* Ensures the elements inside the form are stacked vertically */
-            text-align: left;         /* Aligns the text and input fields to the left */
-}
+            width: 50%;   
+            max-width: 400px; /* Limits the width of the form container */
+            text-align: left; /* Align text inside the form to the left */
+        }
 
         form {
             width: 300px;  /* Adjusts the width of the form */
@@ -142,15 +148,18 @@
             <button id="download-btn" class="download-btn">Download Updated ICS</button>
         </div>
 
-        <div class="submitTask"> 
-            <form>
-                <label for=“Assignments”>Assignments</label>
-                <br>
-                <input type=“text” name=“task” id=“task”>
-                <br>
-                <input type="submit" value="Submit">
-            </form>
+        <div class="submissionContainer"> 
+            <div class="submitTask"> 
+                <form>
+                    <label for=“Assignments”>Assignments</label>
+                    <br>
+                    <input type=“text” name=“task” id=“task”>
+                    <br>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
         </div>
+
     </div>
 
     <!-- FullCalendar JS -->
