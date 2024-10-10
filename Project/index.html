@@ -67,6 +67,32 @@
             background-color: #d16e68;
         }
 
+        /* Assignment input field */
+        .submissionContainer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .submitTask {
+            width: 50%;   
+            text-align: left; /* Align text inside the form to the left */
+            margin-left: 50px;
+            margin-top: 100px;
+        }
+
+        form {
+            width: 300px;  /* Adjusts the width of the form */
+        }
+
+        input[type="text"] {
+            width: 100%;   /* Ensures the text input field takes up the full width of the form */
+        }
+
+        input[type="submit"] {
+            margin-top: 10px;  /* Adds some space between the text field and the submit button */
+        }
+        /* end of assignment field css */
+
         .calendar-container {
             display: flex;
             justify-content: space-between;
@@ -120,6 +146,19 @@
         <div class="download-btn-container">
             <button id="download-btn" class="download-btn">Download Updated ICS</button>
         </div>
+
+        <div class="submissionContainer"> 
+            <div class="submitTask"> 
+                <form>
+                    <label for=“Assignments”>Assignments</label>
+                    <br>
+                    <input type=“text” name=“task” id=“task”>
+                    <br>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+
     </div>
 
     <!-- FullCalendar JS -->
