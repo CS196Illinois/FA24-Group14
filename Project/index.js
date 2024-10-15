@@ -33,6 +33,22 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Please upload at least one .ics file');
         }
     });
+    function fetchICSFromServer() {
+        fetch('response.ics') 
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text(); // Expect the .ics file content as text
+            })
+            .then(data => {
+                const events = parseICS(data); // Parse the .ics file
+                calendar.addEventSource(events); // Add parsed events to the calendar
+            })
+            .catch(error => {
+                alert('Error fetching response.ics file: ' + error);
+            });
+    }
 
     // iCal parser logic
     function parseICS(icsData) {
