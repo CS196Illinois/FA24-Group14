@@ -9,7 +9,7 @@ async function run(userSpecs) {
 
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
-  const folderPath = "ICSFolderSample";
+  const folderPath = "ICSFolder"; // required folder in project directory
 
   try {
     const files = await fs.readdir(folderPath);
