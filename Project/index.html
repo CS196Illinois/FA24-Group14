@@ -81,11 +81,22 @@
         }
 
         form {
-            width: 300px;  /* Adjusts the width of the form */
+            width: 400px;  /* Adjusts the width of the form */
         }
 
         input[type="text"] {
-            width: 100%;   /* Ensures the text input field takes up the full width of the form */
+            max-width: 600px;
+            width: 100%; 
+            padding: 10px;
+            font-size: 1rem;  /* Ensures the text input field takes up the full width of the form */
+        }
+
+        textarea {
+            width: 100%;      /* Ensures it takes the full width of the form */
+            height: 150px;    /* Adjust the height as needed */
+            padding: 10px;    /* Optional: add some padding */
+            font-size: 1rem;  /* Optional: adjust font size */
+            resize: vertical;  /* Allows users to only resize vertically */
         }
 
         input[type="submit"] {
@@ -143,9 +154,9 @@
             <div class="submissionContainer"> 
                 <div class="submitTask"> 
                     <form>
-                        <label for=“Assignments”>Assignments</label>
+                        <label for="Specifications">Specifications:</label>
                         <br>
-                        <input type=“text” name=“task” id=“task”>
+                        <textarea name="task" id="task" rows="6" style="width: 100%;"></textarea>
                         <br>
                         <input type="submit" value="Submit">
                     </form>
