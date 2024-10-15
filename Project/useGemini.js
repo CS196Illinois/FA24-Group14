@@ -37,11 +37,11 @@ async function run(userSpecs) {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    console.log("run completed");
+    //console.log("run completed");
     await fs.writeFile("response.ics", text);
   } catch (error) {
     console.error("Error reading the .ics files:", error);
   }
 }
 
-run();
+//run();
