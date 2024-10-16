@@ -114,7 +114,20 @@
         }
 
         input[type="text"] {
-            width: 100%;   /* Ensures the text input field takes up the full width of the form */
+            max-width: 400px;
+            font-size: 4rem;
+            width: 100%; 
+            padding: 30px;
+             /* Ensures the text input field takes up the full width of the form */
+        }
+
+        textarea {
+            width: 50%;      /* Ensures it takes the full width of the form */
+            height: 150px;    /* Adjust the height as needed */
+            padding: 30px;    /* Optional: add some padding */
+            font-size: 1rem;  /* Optional: adjust font size */
+            margin-top: 10px;
+            resize: vertical;  /* Allows users to only resize vertically */
         }
 
         input[type="submit"] {
