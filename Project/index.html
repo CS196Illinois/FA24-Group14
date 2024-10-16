@@ -5,13 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyGuide - FullCalendar ICS Upload</title>
+     
+    <!-- Google Fonts -->
+     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400&display=swap" rel="stylesheet">
 
     <!-- FullCalendar CSS -->
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
 
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: serif;
             background-color: #f3d9d6;
             color: #4a3838;
             margin: 0;
@@ -34,7 +37,7 @@
         }
 
         .main-header h1 {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Georgia', sans-serif;
             font-size: 3rem;
             font-weight: 700;
         }
@@ -42,6 +45,7 @@
         .main-header p {
             font-size: 1.2rem;
             margin-bottom: 30px;
+            color: #6b4e4e
         }
 
         .upload-btn {
@@ -67,32 +71,6 @@
             background-color: #d16e68;
         }
 
-        /* Assignment input field */
-        .submissionContainer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .submitTask {
-            width: 50%;   
-            text-align: left; /* Align text inside the form to the left */
-            margin-left: 50px;
-            margin-top: 100px;
-        }
-
-        form {
-            width: 300px;  /* Adjusts the width of the form */
-        }
-
-        input[type="text"] {
-            width: 100%;   /* Ensures the text input field takes up the full width of the form */
-        }
-
-        input[type="submit"] {
-            margin-top: 10px;  /* Adds some space between the text field and the submit button */
-        }
-        /* end of assignment field css */
-
         .calendar-container {
             display: flex;
             justify-content: space-between;
@@ -100,7 +78,7 @@
         }
 
         #calendar {
-            width: 50%;
+            width: 60%;
             margin-left: auto;
             background-color: #fff;
             border-radius: 10px;
