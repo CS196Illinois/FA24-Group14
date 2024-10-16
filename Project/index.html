@@ -13,20 +13,28 @@
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
 
     <style>
-        .hero {
-        background-image: url('https://marketplace.canva.com/EAEthkBVLfQ/1/0/1600w/canva-blush-wave-desktop-wallpaper-drvq3zaYl2E.jpg');
-        background-size: cover;
-        background-position: center;
-        height: 250px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #57342b;
-        text-align: center;
-        position: relative;
+        body {
+            font-family: serif;
+            background-color: #f3d9d6;
+            color: #4a3838;
+            margin: 0;
+            padding: 0;
         }
 
-        .hero::before {
+        .main-header {
+            background-image: url('https://marketplace.canva.com/EAEthkBVLfQ/1/0/1600w/canva-blush-wave-desktop-wallpaper-drvq3zaYl2E.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #57342b;
+            text-align: center;
+            position: relative;
+        }
+
+        .main-header::before {
             content: '';
             position: absolute;
             top: 0;
@@ -41,24 +49,17 @@
             z-index: 1;
         }
 
-        .hero h1 {
+        .main-header h1 {
             font-size: 4rem;
             font-family: 'Georgia', sans-serif;
             margin: 0;
             padding-bottom: 30px;
         }
 
-        .hero p {
+        .main-header p {
             font-size: 1.5rem;
             margin: 10px 0;
-        }
-
-        body {
-            font-family: serif;
-            background-color: #f3d9d6;
-            color: #4a3838;
-            margin: 0;
-            padding: 0;
+            color: #5f4545
         }
 
         .container {
@@ -69,23 +70,6 @@
             border-radius: 15px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             position: relative;
-        }
-
-        .main-header {
-            text-align: center;
-            color: #57342b;
-        }
-
-        .main-header h1 {
-            font-family: 'Georgia', sans-serif;
-            font-size: 3rem;
-            font-weight: 700;
-        }
-
-        .main-header p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: #6b4e4e
         }
 
         .upload-btn {
@@ -146,12 +130,8 @@
 
 <body>
     <div class="container">
-        <!-- <header class="main-header">
-            <h1>StudyGuide</h1>
-            <p>Organize your calendar with the simple click of a button</p>
-        </header> -->
-
-        <header class="hero"> <!-- just make it main-header and replace hero with main-header in css -->
+        
+        <header class="main-header"> <!-- just make it main-header and replace hero with main-header in css -->
             <div class="hero-content">
                 <h1>StudyGuide</h1>
                 <p>Organize your calendar with the simple click of a button</p>
