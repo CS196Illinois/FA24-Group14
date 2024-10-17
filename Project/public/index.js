@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             // Send the files to the server using fetch
-            fetch('/upload', {
+            fetch('/ICSFolder', {
                 method: 'POST',
                 body: formData
             })
