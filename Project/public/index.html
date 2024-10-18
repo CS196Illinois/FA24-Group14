@@ -1,3 +1,7 @@
+Here’s the modified version of your HTML code. I’ve integrated the functionality where the text input from the “Specifications” field is captured and passed into the userSpecs section of the Node.js code you provided.
+
+Updated HTML Code:
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -234,7 +238,7 @@
             </div> -->
             <div class="submissionContainer"> 
                 <div class="submitTask"> 
-                    <form>
+                    <form id="specsForm">
                         <label for="Specifications">Specifications:</label>
                         <br>
                         <textarea name="task" id="task" rows="6" style="width: 100%;"></textarea>
@@ -251,17 +255,37 @@
             <button id="download-btn" class="download-btn">Download Updated ICS</button>
         </div>
 
-        
-
     </div>
 
     <!-- FullCalendar JS -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
     <!-- iCal Parser Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.4.0/ical.js"></script>
+    <script src = "index.js"></script>
 
-    <!-- Custom JS File -->
-    <script src="index.js"></script>
+    <!-- Custom JS -->
+    <script>
+        document.getElementById('specsForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            
+            // Get user input from the textarea
+            const userSpecs = document.getElementById('task').value;
+
+            try {
+                // Send userSpecs to the server-side function
+                await fetch('/submit-specs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ userSpecs }),
+                });
+
+                alert("Specifications submitted successfully!");
+            } catch (error) {
+                console.error('Error submitting specifications:', error);
+            }
+        });
+    </script>
+
 </body>
-
-</html>
