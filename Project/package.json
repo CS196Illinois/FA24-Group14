@@ -1,4 +1,13 @@
 {
+  "type": "module",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "dotenv": "^16.4.5",
+    "fullcalendar": "^6.1.15"
+  }
+}
+
+{
   "name": "fa24-group14",
   "version": "1.0.0",
   "description": "Group Name: Calendar",
