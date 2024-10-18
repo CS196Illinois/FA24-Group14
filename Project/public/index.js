@@ -124,6 +124,15 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 if (data.success) {
                     alert('Files uploaded successfully');
+                    fetch('/response.ics')
+                    .then(response => response.text())
+                    .then(icsData => {
+                        const events = parseICS(icsData);
+                        calendar.addEventSource(events); // Add events from response.ics to the calendar
+                    })
+                    .catch(error => {
+                        console.error('Error fetching response.ics:', error);
+                    });
                     // You can now parse and add events to the calendar if you want
                     data.files.forEach(filePath => {
                         fetch(filePath)
