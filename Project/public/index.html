@@ -266,22 +266,27 @@
             
             // Get user input from the textarea
             const userSpecs = document.getElementById('task').value;
-
+        
             try {
                 // Send userSpecs to the server-side function
-                await fetch('/submit-specs', {
+                const response = await fetch('/submit-specs', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ userSpecs }),
                 });
-
-                alert("Specifications submitted successfully!");
+        
+                const data = await response.json();
+                if (data.success) {
+                    alert("ICS file has been updated successfully!");
+                } else {
+                    alert("There was an error updating the ICS file.");
+                }
             } catch (error) {
                 console.error('Error submitting specifications:', error);
             }
         });
-    </script>
+        </script>
 
 </body>
