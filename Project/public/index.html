@@ -198,7 +198,12 @@
             </div>
         </header>
 
+        <!-- Upload Form -->
         <div class="upload-btn">
+            <form id="uploadForm" enctype="multipart/form-data">
+                <input type="file" id="upload" accept=".ics" multiple />
+                <button type="submit">Upload</button>
+            </form>
             <input type="file" id="real-file" accept=".ics" multiple hidden="hidden" />
             <button type="button" id="custom-button">CHOOSE A FILE</button> 
             <span id="custom-text">No file chosen, yet.</span>
@@ -222,6 +227,7 @@
             </script>
         </div>
 
+        <!-- Calendar Section -->
         <div class="calendar-container">
             <!-- <div class="calendar-img">
                 <img src="your-image-path.png" alt="Calendar Illustration">
@@ -240,6 +246,7 @@
             <div id="calendar"></div>
         </div>
 
+        <!-- Download Button -->
         <div class="download-btn-container">
             <button id="download-btn" class="download-btn">Download Updated ICS</button>
         </div>
@@ -253,7 +260,8 @@
     <!-- iCal Parser Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.4.0/ical.js"></script>
 
-    <script src = "index.js"> </script>
+    <!-- Custom JS File -->
+    <script src="index.js"></script>
 </body>
 
 </html>
