@@ -51,7 +51,21 @@ app.post('/useGemini',(req, res) => {
         files: filePaths 
     });
 });
+app.post('/useGemini', (req, res) => {
+    const userSpecs = req.body;
 
+    // Save userSpecs to useGemini.js by passing it to the function
+    try {
+        // Execute the function with the provided user specs
+        const output = useGemini(userSpecs);
+        
+        // Respond back to the frontend
+        res.json({ success: true, message: "ICS file updated", output });
+    } catch (error) {
+        console.error("Error handling POST request:", error);
+        res.json({ success: false, message: "Error updating ICS file" });
+    }
+});
 // Serve static files from the ICSFolder
 app.use('/ICSFolder', express.static(path.join(__dirname, 'ICSFolder')));
 

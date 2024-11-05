@@ -260,34 +260,33 @@
     <script src = "index.js"></script>
 
     <!-- Custom JS -->
-    <script src = "useGemini.js">
-        document.getElementById('specsForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
-            
-            // Get user input from the textarea
-            const userSpecs = document.getElementById('task').value;
+   <script type="">
+    document.getElementById('specsForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
         
-            try {
-                // Send userSpecs to the server-side function
-                const response = await fetch('/useGemini', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'text/plain',
-                    },
-                    body:({ userSpecs }),
-                });
-              
-        
-                const data = await response.json();
-                if (data.success) {
-                    alert("ICS file has been updated successfully!");
-                } else {
-                    alert("There was an error updating the ICS file.");
-                }
-            } catch (error) {
-                console.error('Error submitting specifications:', error);
+        // Get user input from the textarea
+        const userSpecs = document.getElementById('task').value;
+    
+        try {
+            // Send userSpecs as plain text to the server
+            const response = await fetch('/useGemini', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain',
+                },
+                body: userSpecs, // Sending plain text directly
+            });
+    
+            const data = await response.json();
+            if (data.success) {
+                alert("ICS file has been updated successfully!");
+            } else {
+                alert("There was an error updating the ICS file.");
             }
-        });
-        </script>
+        } catch (error) {
+            console.error('Error submitting specifications:', error);
+        }
+    });
+</script>
 
 </body>
