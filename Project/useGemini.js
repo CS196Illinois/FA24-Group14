@@ -3,7 +3,6 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import fs from "fs/promises";
 
 dotenv.config();
-
 async function run(userSpecs) {
   const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 

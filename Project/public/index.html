@@ -260,7 +260,7 @@
     <script src = "index.js"></script>
 
     <!-- Custom JS -->
-    <script>
+    <script src = "useGemini.js">
         document.getElementById('specsForm').addEventListener('submit', async function (e) {
             e.preventDefault();
             
@@ -269,13 +269,14 @@
         
             try {
                 // Send userSpecs to the server-side function
-                const response = await fetch('/submit-specs', {
+                const response = await fetch('/useGemini', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'text/plain',
                     },
-                    body: JSON.stringify({ userSpecs }),
+                    body:({ userSpecs }),
                 });
+              
         
                 const data = await response.json();
                 if (data.success) {

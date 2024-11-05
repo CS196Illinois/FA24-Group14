@@ -39,6 +39,18 @@ app.post('/ICSFolder', upload.array('files', 10), (req, res) => {
         files: filePaths // Send back the file paths to the client
     });
 });
+app.post('/useGemini',(req, res) => {
+    if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ success: false, message: 'No files uploaded' });
+    }
+
+    const filePaths = req.files.map(file => path.join('/useGemini', file.filename));
+    
+    res.json({
+        success: true,
+        files: filePaths 
+    });
+});
 
 // Serve static files from the ICSFolder
 app.use('/ICSFolder', express.static(path.join(__dirname, 'ICSFolder')));
