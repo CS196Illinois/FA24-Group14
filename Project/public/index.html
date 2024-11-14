@@ -96,6 +96,11 @@
             background-color: #d16e68;
         }
 
+        .fileUpload {
+            display: block;
+            margin: auto;
+        }
+
         /* Assignment input field */
         .submissionContainer {
             display: flex;
@@ -192,7 +197,7 @@
         <div class="upload-btn">
             <form id="uploadForm" enctype="multipart/form-data">
                 <input type="file" id="upload" accept=".ics" multiple />
-                <!-- <button type="submit">Upload</button> --> <!-- don't need -->
+                <button class="fileUpload" type="submit">Upload</button>
             </form>
         </div>
 
