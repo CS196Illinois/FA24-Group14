@@ -96,17 +96,21 @@
             background-color: #d16e68;
         }
 
+        .fileUpload {
+            display: block;
+            margin: auto;
+        }
+
         /* Assignment input field */
         .submissionContainer {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .submitTask {
+        .submitTask { /* work: this should be updated based on the form reqs*/
             width: 50%;   
             text-align: left; /* Align text inside the form to the left */
             margin-left: 50px;
-            margin-top: 100px;
         }
 
         form {
@@ -123,11 +127,15 @@
 
         textarea {
             width: 50%;      /* Ensures it takes the full width of the form */
-            height: 150px;    /* Adjust the height as needed */
-            padding: 30px;    /* Optional: add some padding */
+            height: 50%;    /* Adjust the height as needed */
+            padding: 10px;    /* Optional: add some padding */
             font-size: 1rem;  /* Optional: adjust font size */
             margin-top: 10px;
             resize: vertical;  /* Allows users to only resize vertically */
+        }
+
+        select {
+            width: 70%
         }
 
         input[type="submit"] {
@@ -192,7 +200,7 @@
         <div class="upload-btn">
             <form id="uploadForm" enctype="multipart/form-data">
                 <input type="file" id="upload" accept=".ics" multiple />
-                <button type="submit">Upload</button>
+                <button class="fileUpload" type="submit">Upload</button>
             </form>
         </div>
 
@@ -200,10 +208,50 @@
         <div class="calendar-container">
             <div class="submissionContainer"> 
                 <div class="submitTask"> 
-                    <form id="specsForm">
-                        <label for="Specifications">Specifications:</label>
+                    <form id="specsForm"> <!-- work: add form here -->
+                        <label for="Specifications">Question 1</label> <!-- Q1 -->
                         <br>
-                        <textarea name="task" id="task" rows="6" style="width: 100%;"></textarea>
+                        <select id="optionsQ1" name="options">
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <option value="option3">Option 3</option>
+                            <option value="option4">Option 4</option>
+                        </select>
+                        <br>
+                        <br>
+                        <label for="Specifications">Question 2</label> <!-- Q2-->
+                        <br>
+                        <select id="optionsQ2" name="options">
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <option value="option3">Option 3</option>
+                            <option value="option4">Option 4</option>
+                        </select>
+                        <br>
+                        <br>
+                        <label for="Specifications">Question 3</label> <!-- Q3 -->
+                        <br>
+                        <select id="optionsQ3" name="options">
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <option value="option3">Option 3</option>
+                            <option value="option4">Option 4</option>
+                        </select>
+                        <br>
+                        <br>
+                        <label for="Specifications">Question 4</label> <!-- Q4 -->
+                        <br>
+                        <select id="optionsQ4" name="options">
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <option value="option3">Option 3</option>
+                            <option value="option4">Option 4</option>
+                        </select>
+                        <br>
+                        <br>
+                        <label for="Specifications">Anything Else?</label>
+                        <br>
+                        <textarea name="task" id="task" rows="3" style="width: 100%;"></textarea>
                         <br>
                         <button type="submit" onclick="" >Submit</button>
                     </form>
