@@ -11,6 +11,41 @@ document.addEventListener('DOMContentLoaded', function () {
         events: [] // Initialize with an empty events array
     });
     calendar.render();
+    // Google Sign-In initialization
+    google.accounts.id.initialize({
+        client_id: "YOUR_GOOGLE_CLIENT_ID", // Replace with your actual Google Client ID
+        callback: handleCredentialResponse
+    });
+
+    google.accounts.id.renderButton(
+        document.getElementById('google-signin-button'),
+        { 
+            theme: "outline", 
+            size: "large", 
+            text: "signin_with" // Customize the text of the button if needed
+        }
+    );
+
+    // Handle Google Sign-In credential response
+    function handleCredentialResponse(response) {
+        const responsePayload = parseJwt(response.credential);
+        console.log("ID Token: ", response.credential);
+        console.log("User info: ", responsePayload);
+        
+        // You can send the ID token to your server for verification here if needed
+    }
+
+    // Function to parse JWT (JSON Web Token)
+    function parseJwt(token) {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        
+        return JSON.parse(jsonPayload);
+    }
+
 
     // Handle file upload and send it to the server
     document.getElementById('uploadForm').addEventListener('submit', function (event) {
