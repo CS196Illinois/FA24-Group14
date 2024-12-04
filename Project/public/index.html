@@ -170,6 +170,7 @@
             border: 0px solid #000;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 15px;
         }
 
         #custom-button:hover {
@@ -198,10 +199,36 @@
 
         <!-- Upload Form -->
         <div class="upload-btn">
+           <input type="file" id="real-file" accept=".ics" multiple hidden="hidden" />
+           <button type="button" id="custom-button">choose a file</button>
+           <span id="custom-text">no file chosen</span>
+
+
+           <script type="text/javascript">
+               const realFileBtn = document.getElementById("real-file");
+               const customBtn = document.getElementById("custom-button");
+               const customTxt = document.getElementById("custom-text");
+
+
+               customBtn.addEventListener("click", function() {
+                   realFileBtn.click();
+               });
+
+
+               realFileBtn.addEventListener("change", function() {
+                   if (realFileBtn.value) {
+                       customTxt.innerHTML = realFileBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+                   } else {
+                       customTxt.innerHTML = "No file chosen, yet.";
+                   }
+               });
+           </script>
+            <!-- old upload code
             <form id="uploadForm" enctype="multipart/form-data">
                 <input type="file" id="upload" accept=".ics" multiple />
                 <button class="fileUpload" type="submit">Upload</button>
             </form>
+            -->
         </div>
 
         <!-- Calendar Section -->
