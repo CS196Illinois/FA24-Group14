@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.render();
     // Google Sign-In initialization
     google.accounts.id.initialize({
-        client_id: "YOUR_GOOGLE_CLIENT_ID", // Replace with your actual Google Client ID
+        client_id: "936434721234-pvv4ujsq02kfn4lv6qfhl25afaotd029.apps.googleusercontent.com",
         callback: handleCredentialResponse
     });
 
