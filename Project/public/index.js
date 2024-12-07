@@ -58,6 +58,30 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Please upload at least one .ics file');
         }
     });
+    function handleRecurringEvents(vevent, dtstart, dtend, summary, location, events) {
+        const recurrenceIterator = new ICAL.RecurExpansion({
+            component: vevent,
+            dtstart: dtstart
+        });
+
+        // Limit the expansion to a reasonable range (e.g., one year from now)
+        const oneYearFromNow = ICAL.Time.fromJSDate(new Date());
+        oneYearFromNow.year += 1;
+
+        let nextOccurrence = recurrenceIterator.next();
+        while (nextOccurrence) {
+            if (nextOccurrence.compare(oneYearFromNow) > 0) {
+                break; // Stop if occurrences exceed the limit
+            }
+
+            const occurrenceEnd = dtend
+                ? nextOccurrence.clone().addDuration(dtend.subtractDate(dtstart))
+                : nextOccurrence;
+
+            events.push(createEventObject(nextOccurrence, occurrenceEnd, summary, location));
+            nextOccurrence = recurrenceIterator.next();
+        }
+    }
 
     // iCal parser logic
     function parseICS(icsData) {
