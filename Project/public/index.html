@@ -252,11 +252,13 @@
 
 
                realFileBtn.addEventListener("change", function() {
-                   if (realFileBtn.value) {
-                       customTxt.innerHTML = realFileBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
-                   } else {
-                       customTxt.innerHTML = "No file chosen, yet.";
-                   }
+                if (realFileBtn.files.length > 0) {
+                    // Get the file name from the files array
+                    const fileName = realFileBtn.files[0].name;
+                    customTxt.innerHTML = fileName;
+                } else {
+                    customTxt.innerHTML = "No file chosen, yet.";
+                }
                });
            </script>
             <!-- old upload code
